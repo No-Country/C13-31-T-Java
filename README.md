@@ -1,83 +1,59 @@
-<div align="center" >
-    <img src="./imgReadme/IMAGE.svg"  width="50%"/>
-</div>
+# c13-31-T-Java
 
-<br/>
-<br />
+# Contratación de Servicios en Plataforma Web
 
-<div align="center" >
-    <img src="./imgReadme/Logo.svg"  width="30%"/>
-</div>
+Bienvenido al repositorio del proyecto de Contratación de Servicios en Plataforma Web. En este proyecto, estamos desarrollando una plataforma web que permite a los clientes encontrar y contratar servicios profesionales de manera eficiente y conveniente. Los clientes podrán explorar una variedad de categorías de servicios, ver la información de los proveedores y realizar contrataciones de servicios de manera fácil.
 
-<br/>
-<br />
+## Características Clave
 
-## Descripción
+- Registro e inicio de sesión de usuarios.
+- Búsqueda de proveedores de servicios por categoría y filtros.
+- Visualización detallada de perfiles de proveedores con valoraciones y comentarios.
+- Solicitud y confirmación de contratación de servicios.
+- Seguimiento del estado de las solicitudes de servicio.
+- Funcionalidades para clientes, proveedores y administradores.
 
-...
+## Tecnologías Utilizadas
 
-<br />
-<br />
+- Frontend: NextJS (ReactJS) - NextUI - TailwindCSS - TypeScript
+- Backend: Java (SpringBoot)
+- Base de Datos: MySQL
+- Otras herramientas y bibliotecas según sea necesario.
 
-## Desarrollado con
+## Instalación y Configuración
 
-### 🛠️ Lenguaje de programación
+1. Clona este repositorio: `git clone https://github.com/tu-usuario/contratacion-servicios-web.git`
+2. Navega a la carpeta del proyecto: `cd contratacion-servicios-web`
+3. Instala las dependencias: `npm install` o `yarn install`
 
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![Typescript](https://img.shields.io/badge/typescript-blue?style=for-the-badge&logo=Typescript&logoColor=white) ![Java](https://img.shields.io/badge/java-green?style=for-the-badge&logo=Java&logoColor=white)
-<br />
-### 📚 Diseño
+## Uso
 
-![Figma](https://img.shields.io/badge/figma-orange?style=for-the-badge&logo=Figma&logoColor=white)
-<br/>
-### 📚 Tecnologías
+1. Inicia el servidor backend: `npm start` o el comando correspondiente.
+2. Inicia la aplicación frontend: `npm start` o el comando correspondiente.
+3. Abre tu navegador y visita: `http://localhost:3000` (o el puerto correspondiente).
 
-- Frontend
+## Contribución
 
-![Next](https://img.shields.io/badge/Next-000?style=for-the-badge&logo=Next&logoColor=white) ![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
+¡Agradecemos las contribuciones a este proyecto! Si deseas contribuir, sigue estos pasos:
 
-- Backend y base de datos
+1. Crea un fork del repositorio.
+2. Crea una nueva rama para tus cambios: `git checkout -b feature/nueva-caracteristica`.
+3. Realiza tus cambios y realiza confirmaciones significativas.
+4. Envía un Pull Request describiendo tus cambios.
 
-![Spring Boot](https://img.shields.io/badge/Spring-green?style=for-the-badge&logo=Spring&logoColor=white)
-<br />
-### 💻 IDEs/Editores
+## Equipo
 
-![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
-<br />
-### 🕓 Control de versiones
+- Santiago Rodriguez - Frontend
+- Gaspar Jose - Frontend
 
-![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
-<br />
-### 📌 Otras herramientas
+- Juan Emilio - Backend
+- Juan Cruz - Backend
 
-![Babel](https://img.shields.io/badge/Babel-F9DC3e?style=for-the-badge&logo=babel&logoColor=black) ![Trello](https://img.shields.io/badge/Trello-%23026AA7.svg?style=for-the-badge&logo=Trello&logoColor=white)
-<br />
-<br />
+## Licencia
 
-## Instalación
+Este proyecto está bajo la Licencia XYZ. Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
-### Frontend
+---
 
-```sh
-cd frontend
-```
+© 2023 - NoCountry
 
-```sh
-npm i
-```
-
-```sh
-npm run dev
-```
-
-<br />
-
-## Funcionalidades
-
-- ...
-
-<br />
-
-## Autores
-
-- [Diego Nieves](https://github.com/Diego-Nieves26)
-- ...

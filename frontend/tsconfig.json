@@ -1,27 +1,30 @@
 {
     "compilerOptions": {
-        "target": "es6",
+        "target": "ES2017",
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
         "noFallthroughCasesInSwitch": true,
         "noImplicitReturns": true,
         "sourceMap": true,
         "lib": ["dom", "dom.iterable", "esnext"],
+        "forceConsistentCasingInFileNames": true,
         "allowJs": true,
+        "checkJs": true,
         "skipLibCheck": true,
-        "strict": true,
+        "strict": false,
         "noEmit": true,
         "esModuleInterop": true,
         "module": "esnext",
-        "moduleResolution": "bundler",
+        "moduleResolution": "node",
         "resolveJsonModule": true,
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
+        "noUncheckedIndexedAccess": true,
         "paths": {
             "@*": ["./src/*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".eslintrc.js", "prettier.config.cjs"],
     "exclude": ["node_modules"]
 }

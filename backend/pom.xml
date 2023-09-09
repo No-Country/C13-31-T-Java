@@ -86,6 +86,12 @@
 			<artifactId>pact-jvm-provider-junit5-spring</artifactId>
 			<version>4.0.10</version>
 		</dependency>
+		<!--OPEN API SWAGGER -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.2.0</version>
+		</dependency>
 		<!-- TEST environment Mockito dependency -->
 		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
 		<!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
