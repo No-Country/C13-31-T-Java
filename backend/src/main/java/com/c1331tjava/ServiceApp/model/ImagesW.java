@@ -19,7 +19,8 @@ public class ImagesW {
     @Column
     private String imageLink;
 
-    @ManyToOne
-    private Work work;
+    public ImagesW(String imageLink) {
+        this.imageLink = imageLink;
+    }
 
 }

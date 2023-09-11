@@ -1,4 +1,4 @@
-package com.c1331tjava.ServiceApp.dto;
+package com.c1331tjava.ServiceApp.dto.client;
 
 import com.c1331tjava.ServiceApp.model.Notification;
 import jakarta.validation.constraints.NotNull;
@@ -14,5 +14,5 @@ public class ClientDTO {
     @NotNull (message = "Username must not be null")
     private String email;
     private String te;
-    private List<Notification> notifications;
+//    private List<Notification> notifications;
 }

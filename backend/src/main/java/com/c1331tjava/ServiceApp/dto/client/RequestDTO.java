@@ -1,5 +1,6 @@
-package com.c1331tjava.ServiceApp.dto;
+package com.c1331tjava.ServiceApp.dto.client;
 
+import com.c1331tjava.ServiceApp.dto.BidDTO;
 import com.c1331tjava.ServiceApp.model.*;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ public class RequestDTO {
     private Zone zone;
     private String description;
     private Set<ImagesR> images;
-    private Set<ProviderDTO> providers;
+    private Set<BidDTO> bids;
     private String comments;
     private Boolean ended;
 }

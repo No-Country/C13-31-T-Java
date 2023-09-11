@@ -1,6 +1,7 @@
 package com.c1331tjava.ServiceApp.service;
 
 import com.c1331tjava.ServiceApp.exception.CustomedHandler;
+import com.c1331tjava.ServiceApp.model.Bid;
 import com.c1331tjava.ServiceApp.model.Request;
 import com.c1331tjava.ServiceApp.model.UserEntity;
 import com.c1331tjava.ServiceApp.repository.RequestRepository;
@@ -27,21 +28,40 @@ public class RequestService {
      */
     public Page<Request> findByClientAndActiveTrue(UserEntity userEntity, Pageable pageable){
 
-            return this.requestRepository.findByClientAndActiveTrue(userEntity, pageable);
+            return requestRepository.findByClientAndActiveTrue(userEntity, pageable);
 
     }
 
     public Optional<Request> findById(Long id) {
         try {
-            return this.requestRepository.findById(id);
+            return requestRepository.findById(id);
         } catch (Exception e) {
-            throw new CustomedHandler("Error accessing database");
+            throw new CustomedHandler("Error fetching data from request database");
         }
-
     }
 
+    public List<Request> findAll(){
+
+        try {
+            return requestRepository.findAll();
+        } catch (Exception e) {
+            throw new CustomedHandler("Error fetching data from request database");
+        }
+    }
+
+    public Page<Request> findByProvidersContaining(UserEntity userEntity, Pageable pageable){
+        try {
+            return requestRepository.findByProvidersContaining(userEntity, pageable);
+        } catch (Exception e) {
+            throw new CustomedHandler("Error fetching data from request database");
+        }
+    }
     public void save(Request request){
-        this.requestRepository.save(request);
-    }
 
+        try {
+            requestRepository.save(request);
+        } catch (Exception e) {
+            throw new CustomedHandler("Error persisting data in request database");
+        }
+    }
 }

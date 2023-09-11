@@ -1,4 +1,4 @@
-package com.c1331tjava.ServiceApp.dto;
+package com.c1331tjava.ServiceApp.dto.client;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

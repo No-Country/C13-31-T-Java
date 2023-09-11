@@ -1,5 +1,6 @@
 package com.c1331tjava.ServiceApp.service;
 
+import com.c1331tjava.ServiceApp.config.SecurityConfig;
 import com.c1331tjava.ServiceApp.exception.CustomedHandler;
 import com.c1331tjava.ServiceApp.model.UserEntity;
 import com.c1331tjava.ServiceApp.repository.I_UserRepository;

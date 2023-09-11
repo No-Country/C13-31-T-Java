@@ -1,13 +1,13 @@
 package com.c1331tjava.ServiceApp.model;
 
 
-import com.c1331tjava.ServiceApp.model.enums.NotificationsNames;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -20,12 +20,12 @@ public class Notification {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private NotificationsNames name;
+    @Column(length = 50)
+    private String name;
 
     @Column
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    private LocalDateTime date;
 
     @Column (columnDefinition = "boolean default false")
     private Boolean viewed;

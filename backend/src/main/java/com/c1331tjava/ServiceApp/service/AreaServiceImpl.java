@@ -23,6 +23,6 @@ public class AreaServiceImpl implements I_AreaService {
     }
 
     public List<Area> findAll(){
-        return this.areaRepository.findAll();
+        return areaRepository.findAll();
     }
 }

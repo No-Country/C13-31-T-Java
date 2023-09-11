@@ -1,10 +1,8 @@
 package com.c1331tjava.ServiceApp.controller;
 
 import com.c1331tjava.ServiceApp.config.SecurityConfig;
-import com.c1331tjava.ServiceApp.dto.ClientDTO;
-import com.c1331tjava.ServiceApp.dto.RequestListPagedDTO;
+import com.c1331tjava.ServiceApp.dto.client.RequestListPagedDTO;
 import com.c1331tjava.ServiceApp.dto.RequestSaveDTO;
-import com.c1331tjava.ServiceApp.exception.CrossUserException;
 import com.c1331tjava.ServiceApp.exception.CustomedHandler;
 import com.c1331tjava.ServiceApp.model.ImagesR;
 import com.c1331tjava.ServiceApp.model.Request;
@@ -26,7 +24,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -75,8 +72,6 @@ public class RequestClientController {
         }
         return new RequestListPagedDTO(RequestPaged);
     }
-
-
     /**
      * Endpoint to add a new request. Extracts user from token.
      *

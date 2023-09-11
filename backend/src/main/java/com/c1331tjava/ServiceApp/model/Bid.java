@@ -21,9 +21,6 @@ public class Bid {
     @ManyToOne(fetch = FetchType.EAGER)
     private UserEntity provider;
 
-    @ManyToOne
-    private Request request;
-
     @Column (length = 200)
     private String response;
 

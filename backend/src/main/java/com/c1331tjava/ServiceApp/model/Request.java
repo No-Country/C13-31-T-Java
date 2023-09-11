@@ -39,6 +39,9 @@ public class Request {
     private Set<ImagesR> images;
 
     @OneToMany (fetch = FetchType.EAGER)
+    private Set<Bid> bids;
+
+    @OneToMany (fetch = FetchType.EAGER)
     private Set<UserEntity> providers;
 
     @Column (length = 200)
