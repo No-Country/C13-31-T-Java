@@ -11,13 +11,11 @@ import org.springframework.stereotype.Service;
 public class NotificationService {
 
     NotificationRepository notificationRepository;
-    public void save(Notification notification){
-
+    public Notification save(Notification notification){
         try {
-            notificationRepository.save(notification);
+            return notificationRepository.save(notification);
         } catch (Exception e) {
             throw new CustomedHandler("Error persisting notification");
         }
-
     }
 }

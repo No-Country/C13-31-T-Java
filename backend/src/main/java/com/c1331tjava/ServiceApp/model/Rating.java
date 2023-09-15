@@ -16,19 +16,14 @@ public class Rating {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne
     private UserEntity client;
-
     @ManyToOne
     private UserEntity provider;
-
     @ManyToOne
-    private Request request;
-
+    private Work work;
     @Column
     private Integer value;
-
     @Column (length = 200)
     private String comment;
 }

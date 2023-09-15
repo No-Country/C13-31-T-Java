@@ -3,11 +3,33 @@ import React from 'react';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User, Link } from '@nextui-org/react';
 import { signOut } from 'next-auth/react';
 import { useSession } from 'next-auth/react';
+import useApi from '@hooks/useApi';
+import { useEffect, useCallback, useState } from 'react';
 
 const UserMenu: React.FC = () => {
     const { data: session } = useSession();
     const { user } = session?.token || {};
     const { lastName, userName, roles } = user;
+
+    const { getData, data: userData } = useApi('/details');
+
+    const getUserData = useCallback(async () => {
+        try {
+            await getData();
+        } catch (error) {
+            console.error(error);
+        }
+    }, []);
+
+    const [foto, setFoto] = useState('');
+
+    useEffect(() => {
+        setFoto(userData?.imageLink);
+    }, [userData]);
+
+    useEffect(() => {
+        getUserData();
+    }, [getUserData]);
 
     return (
         <div className="flex items-center gap-4">
@@ -17,7 +39,7 @@ const UserMenu: React.FC = () => {
                         as="button"
                         avatarProps={{
                             isBordered: true,
-                            src: 'https://i.pravatar.cc/150?u=a042581f4e29026024d',
+                            src: foto,
                         }}
                         className="transition-transform"
                         description={`${roles[0]}`}
@@ -26,7 +48,7 @@ const UserMenu: React.FC = () => {
                 </DropdownTrigger>
                 <DropdownMenu aria-label="User Actions" variant="flat">
                     <DropdownItem key="settings">
-                        <Link href="/profiles/user">Mi Perfil</Link>
+                        <Link href="/profile">Mi Perfil</Link>
                     </DropdownItem>
                     <DropdownItem key="logout" color="danger" onClick={() => signOut()}>
                         Cerrar Sesión

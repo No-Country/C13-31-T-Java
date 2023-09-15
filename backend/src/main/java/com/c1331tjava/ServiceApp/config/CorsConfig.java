@@ -1,5 +1,6 @@
 package com.c1331tjava.ServiceApp.config;
 
+import jakarta.validation.constraints.NotNull;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -13,10 +13,11 @@ const config: Config = {
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                 'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+                workman: "url('../assets/images/workman.jpg')",
             },
         },
     },
     darkMode: 'class',
-    plugins: [nextui()],
+    plugins: [nextui(), require('@tailwindcss/aspect-ratio')],
 };
 export default config;

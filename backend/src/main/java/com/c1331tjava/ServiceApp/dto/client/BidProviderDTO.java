@@ -1,12 +1,7 @@
-package com.c1331tjava.ServiceApp.dto;
+package com.c1331tjava.ServiceApp.dto.client;
 
 import com.c1331tjava.ServiceApp.model.Area;
-import com.c1331tjava.ServiceApp.model.Notification;
-import com.c1331tjava.ServiceApp.model.Role;
-import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.Date;
 import java.util.List;
 
 @Data

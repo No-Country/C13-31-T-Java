@@ -13,7 +13,7 @@ declare module 'next-auth' {
                 userName: string;
                 lastName: string;
                 roles: string[];
-            }
+            };
         } & DefaultSession['user'];
     }
 
@@ -24,9 +24,8 @@ declare module 'next-auth' {
                 userName: string;
                 lastName: string;
                 roles: number[];
-            }
-        }
-
+            };
+        };
     }
 }
 

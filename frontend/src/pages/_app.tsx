@@ -8,7 +8,6 @@ import { NextUIProvider } from '@nextui-org/react';
 
 // Agrega PropTypes o TypeScript para validar las props
 
-
 const App: React.FC = ({ Component, pageProps }: AppProps<{ session: Session }>) => {
     return (
         <SessionProvider session={pageProps.session} refetchInterval={5 * 60} refetchOnWindowFocus={true}>

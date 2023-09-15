@@ -2,14 +2,12 @@ package com.c1331tjava.ServiceApp.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table (name = "imagesw")
-@AllArgsConstructor
-@Getter @Setter
+@Data
+@NoArgsConstructor
 public class ImagesW {
 
     @Id

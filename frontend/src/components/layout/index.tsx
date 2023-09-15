@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { useSession } from 'next-auth/react';
 import Header from './components/Header';
 import { useRouter } from 'next/router';
-
 interface LayoutProps {
     children: React.ReactNode;
     title: string;
@@ -27,7 +26,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Header />
-            <main className="flex h-full w-full p-5 bg-white">{children}</main>
+            <main className="flex h-full w-full bg-white">{children}</main>
         </>
     );
 };

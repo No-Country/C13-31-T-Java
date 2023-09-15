@@ -6,8 +6,10 @@ import { Button, Link } from '@nextui-org/react';
 
 import Construction from '../assets/images/construction.svg';
 import Logo from '../assets/images/findatrader.png';
+import httpClient from '@libs/httpClient';
 
 const Home: NextPage = () => {
+    httpClient.defaults.baseURL = 'https://findatrader-jebius.koyeb.app/api/v1';
     return (
         <>
             <Head>

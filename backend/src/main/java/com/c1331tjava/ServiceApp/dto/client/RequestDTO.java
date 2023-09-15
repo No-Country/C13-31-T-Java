@@ -1,11 +1,9 @@
 package com.c1331tjava.ServiceApp.dto.client;
 
-import com.c1331tjava.ServiceApp.dto.BidDTO;
 import com.c1331tjava.ServiceApp.model.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Set;
 
 @Data

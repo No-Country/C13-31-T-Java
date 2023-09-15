@@ -4,6 +4,7 @@ import com.c1331tjava.ServiceApp.exception.CustomedHandler;
 import com.c1331tjava.ServiceApp.model.Area;
 import com.c1331tjava.ServiceApp.service.AreaServiceImpl;
 import com.c1331tjava.ServiceApp.service.I_AreaService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,8 @@ public class AreaController {
     @Autowired
     private AreaServiceImpl areaService;
 
+    @Operation(summary = "Get list of areas",
+            description = "<p>No authentication required</p>")
     @GetMapping("/list")
     public List<Area> findAll(){
         try {

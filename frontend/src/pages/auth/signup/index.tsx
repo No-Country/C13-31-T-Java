@@ -1,5 +1,5 @@
 'use client';
-/* eslint-disabled react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect } from 'react';
 import { type NextPage } from 'next';
@@ -13,12 +13,14 @@ import { Input, Checkbox, Button, Select, SelectItem } from '@nextui-org/react';
 import Alert from '@components/Alert';
 import Head from 'next/head';
 import Logo from '../../../assets/images/findatrader.png';
+import { SpinnerCircularFixed } from 'spinners-react';
+import toast, { Toaster } from 'react-hot-toast';
 
 const poppins = Poppins({ weight: '400', subsets: ['latin-ext'] });
 
 interface SignUp {
     userName: string;
-    lastName: string;
+    userLastname: string;
     email: string;
     birthDate: string;
     te: string;
@@ -30,15 +32,16 @@ interface SignUp {
 }
 
 const SignUp: NextPage = () => {
-    const { mutationApi, getData, data: areaList, error, isLoading } = useApi(false);
+    const { getData, data: areaList, error, isLoading } = useApi('/area/list');
+    const { mutationApi, error: regError, isLoading: isLoadinReg, data: regData } = useApi('/auth/register');
 
     useEffect(() => {
-        getData('/area/list');
+        getData();
     }, []);
 
     const handleSubmit = async (values: SignUp) => {
         const registrarUsuario = async (values: SignUp) => {
-            await mutationApi('/auth/register', 'POST', values);
+            await mutationApi('POST', values);
         };
         const { birthDate } = values;
         const convertDate = new Date(birthDate);
@@ -53,24 +56,26 @@ const SignUp: NextPage = () => {
 
         const { repassword, acceptTerms, ...finalDataSet } = dataSet;
 
-        //console.log(dataSet);
-        console.log(JSON.stringify(finalDataSet));
-        const reg = registrarUsuario(finalDataSet);
-        console.log(reg);
-        error && console.log(error);
+        registrarUsuario(finalDataSet);
+
+        if (regData.status === 201) {
+            toast.success('Usuario registrado');
+        }
+
+        regError && toast.error('Error al registrar usuario' + regError);
     };
 
     const formik = useFormik({
         initialValues: {
             userName: '',
-            lastName: '',
+            userLastname: '',
             email: '',
             password: '',
             repassword: '',
             birthDate: '',
             te: '',
-            areas: [""],
-            roles: [""],
+            areas: ['0'],
+            roles: [''],
             acceptTerms: false,
         },
         validationSchema: Yup.object({
@@ -78,7 +83,7 @@ const SignUp: NextPage = () => {
                 .min(3, 'El nombre debe tener al menos 3 caracteres')
                 .max(15, 'El nombre debe tener como maximo 15 caracteres')
                 .required('El nombre es requerido'),
-            lastName: Yup.string()
+            userLastname: Yup.string()
                 .min(3, 'El apellido debe tener al menos 3 caracteres')
                 .max(15, 'El apellido debe tener como maximo 15 caracteres')
                 .required('El apellido es requerido'),
@@ -113,12 +118,26 @@ const SignUp: NextPage = () => {
         { id: '5', value: 'Provedor' },
     ];
 
+    const Loading = () => (
+        <div className="flex justify-center items-center absolute bg-black w-full h-screen z-50 bg-opacity-30">
+            <SpinnerCircularFixed
+                size={85}
+                thickness={100}
+                speed={100}
+                color="rgba(100, 201, 254, 1)"
+                secondaryColor="rgba(0, 0, 0, 0.44)"
+            />
+        </div>
+    );
+
     return (
         <>
             <Head>
                 <title>FaT | Registrarse</title>
             </Head>
             <section className="w-full h-screen">
+                <Toaster />
+                {isLoadinReg && <Loading />}
                 <article className="flex justify-center items-center w-full h-full">
                     <div>
                         <div className="flex flex-row justify-between items-center">
@@ -147,17 +166,17 @@ const SignUp: NextPage = () => {
                             <Input
                                 isRequired
                                 type="text"
-                                name="lastName"
-                                id="lastName"
+                                name="userLastname"
+                                id="userLastname"
                                 onChange={(e) => formik.handleChange(e)}
                                 onBlur={(e) => formik.handleBlur(e)}
                                 label="Apellido"
                                 placeholder="Apellido"
                                 className={`${poppins.className} max-x-xs`}
-                                value={formik.values.lastName}
+                                value={formik.values.userLastname}
                             />
-                            {formik.errors.lastName && formik.touched.lastName && (
-                                <Alert message={formik.errors.lastName} />
+                            {formik.errors.userLastname && formik.touched.userLastname && (
+                                <Alert message={formik.errors.userLastname} />
                             )}
                             <Input
                                 isRequired
@@ -226,31 +245,6 @@ const SignUp: NextPage = () => {
                             />
                             {formik.errors.te && formik.touched.te && <Alert message={formik.errors.te} />}
                             <Select
-                                label="Area"
-                                placeholder="Area"
-                                name="areas"
-                                onChange={(e) => formik.handleChange(e)}
-                                onBlur={(e) => formik.handleBlur(e)}
-                                className={`${poppins.className} max-x-xs`}
-                                value={formik.values.areas}
-                            >
-                                <SelectItem key={0} value={''}>
-                                    Sin Area
-                                </SelectItem>
-                                {isLoading ? (
-                                    <SelectItem key={0} value={''}>
-                                        Cargando...
-                                    </SelectItem>
-                                ) : (
-                                    areaList?.map((area: { id: number, name: string }) => (
-                                        <SelectItem key={area.id} value={area.id}>
-                                            {area.name}
-                                        </SelectItem>
-                                    ))
-                                )}
-                            </Select>
-                            {formik.errors.areas && formik.touched.areas && <Alert message={formik.errors.areas} />}
-                            <Select
                                 label="Rol"
                                 placeholder="Rol"
                                 name="roles"
@@ -266,6 +260,33 @@ const SignUp: NextPage = () => {
                                 ))}
                             </Select>
                             {formik.errors.roles && formik.touched.roles && <Alert message={formik.errors.roles} />}
+                            {formik.values.roles[0] === '5' && (
+                                <Select
+                                    label="Area"
+                                    placeholder="Area"
+                                    name="areas"
+                                    onChange={(e) => formik.handleChange(e)}
+                                    onBlur={(e) => formik.handleBlur(e)}
+                                    className={`${poppins.className} max-x-xs`}
+                                    value={formik.values.areas}
+                                >
+                                    <SelectItem key={0} value={''}>
+                                        Sin Area
+                                    </SelectItem>
+                                    {isLoading ? (
+                                        <SelectItem key={0} value={''}>
+                                            Cargando...
+                                        </SelectItem>
+                                    ) : (
+                                        areaList?.map((area: { id: number; name: string }) => (
+                                            <SelectItem key={area.id} value={area.id}>
+                                                {area.name}
+                                            </SelectItem>
+                                        ))
+                                    )}
+                                </Select>
+                            )}
+                            {formik.errors.areas && formik.touched.areas && <Alert message={formik.errors.areas} />}
                             <Checkbox
                                 isRequired
                                 name="acceptTerms"

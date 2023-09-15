@@ -1,5 +1,4 @@
 'use client';
-import React from 'react';
 import Image from 'next/image';
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from '@nextui-org/react';
 import Logo from '../../../assets/images/FaT100.svg';
@@ -13,7 +12,7 @@ const Nav: React.FC = () => {
     const { data: session } = useSession();
 
     return (
-        <Navbar className="bg-white">
+        <Navbar className="bg-white g">
             <NavbarBrand>
                 <Image src={Logo} alt="FindATrader" width={50} height={50} />
                 <p className={`${poppins} font-bold text-inherit`}>FindATrader</p>
@@ -25,13 +24,21 @@ const Nav: React.FC = () => {
                     </Link>
                 </NavbarItem>
                 <NavbarItem isActive>
-                    <Link href="/provider/tasks" aria-current="page">
-                        Trabajos
-                    </Link>
+                    {session ? (
+                        session.token.user.roles[0] == 'Client' ? (
+                            <Link href="/client/tasks" aria-current="page">
+                                Trabajos
+                            </Link>
+                        ) : (
+                            <Link href="/provider/tasks" aria-current="page">
+                                Trabajos
+                            </Link>
+                        )
+                    ) : null}
                 </NavbarItem>
                 <NavbarItem>
                     <Button
-                        href="#"
+                        href="/client/requests"
                         as={Link}
                         color="success"
                         className="text-white font-bold hover:scale-105"

@@ -5,7 +5,7 @@ package com.c1331tjava.ServiceApp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -29,7 +29,7 @@ public class UserEntity {
     private String email;
     @Column
     @Temporal(TemporalType.TIMESTAMP)
-    private Date birthDate;
+    private LocalDateTime birthDate;
     @Column (length = 60, nullable = false)
     private String password;
     @Column (length = 30)

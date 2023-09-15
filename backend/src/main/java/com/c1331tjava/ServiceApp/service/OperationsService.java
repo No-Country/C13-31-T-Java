@@ -3,8 +3,11 @@ package com.c1331tjava.ServiceApp.service;
 import com.c1331tjava.ServiceApp.config.SecurityConfig;
 import com.c1331tjava.ServiceApp.exception.CustomedHandler;
 import com.c1331tjava.ServiceApp.model.*;
+import com.c1331tjava.ServiceApp.repository.I_UserRepository;
+import com.c1331tjava.ServiceApp.repository.NotificationRepository;
+import com.c1331tjava.ServiceApp.repository.RequestRepository;
+import com.c1331tjava.ServiceApp.repository.WorkRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,11 +16,11 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class OperationsService {
-    WorkService workService;
-    RequestService requestService;
-    UserEntityService userEntityService;
+    WorkRepository workService;
+    RequestRepository requestService;
+    I_UserRepository userEntityService;
     SecurityConfig securityConfig;
-    NotificationService notificationService;
+    NotificationRepository notificationService;
 
     public void selectBidAndCreateNewWork(Request request, Bid bid){
 
@@ -47,25 +50,24 @@ public class OperationsService {
         } catch (Exception e) {
             throw new CustomedHandler("Error updating request");
         }
+
         //Third: add notification to selected provider.
-        notificationService.save(new Notification(
-                null,
-                "Han aceptado una de tus propuestas",
-                LocalDateTime.now(),
-                false)
-        );
+        try {
+            notificationService.save(new Notification(
+                    null,
+                    "Han aceptado una de tus propuestas",
+                    LocalDateTime.now(),
+                    false)
+            );
+        } catch (Exception e) {
+            throw new CustomedHandler("Error accessing notification database");
+        }
     }
     public UserEntity getAuthenticatedUser(){
-        Optional<UserEntity> optU = null;
-        try {
+        Optional<UserEntity> optU;
             optU = userEntityService.findByEmail(securityConfig.getUserNameFromToken());
-        } catch (Exception e) {
-            throw new CustomedHandler("Error fetching data from user database");
-        }
         if (optU.isPresent()){
             return optU.get();
         } else throw new CustomedHandler("Error acquiring authenticated user");
     }
-
-
 }

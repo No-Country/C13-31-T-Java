@@ -2,80 +2,78 @@
 import { useState } from 'react';
 import { mutate } from 'swr';
 import httpClient from '@libs/httpClient';
+import { getSession, useSession } from 'next-auth/react';
 
-const useApi = (auth: boolean) => {
-    const [data, setData] = useState(null);
+const useApi = (endpoint: string): any => {
+    const { data: session } = useSession();
+    const [data, setData] = useState<any>();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
-    let options = {};
-
-    if (auth) {
-        options = {
-            'Content-Type': 'application/json',
-            accept: '*/*',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-        };
-    } else {
-        options = {
-            'Content-Type': 'application/json',
-            accept: '*/*',
-        };
-    }
-
-    const getData = async (endpoint: string, id?: string) => {
+    const getData = async (id?: string): Promise<boolean> => {
         if (!endpoint) {
             throw new Error('Endpoint is required');
         }
+
+        const getEndpoint = id !== undefined ? `${endpoint}/${id}` : endpoint;
 
         try {
             setIsLoading(true);
 
-            const getEndpoint = id !== undefined ? `${endpoint}/${id}` : endpoint;
+            const session = getSession();
 
-            const res = await httpClient(`${getEndpoint}`, { method: 'GET', headers: options });
-
-            if (res.status !== 200) {
-                setError(res.statusText);
+            if (session) {
+                session.then(async (auth) => {
+                    if (auth.token.user.roles[0] == 'Client') {
+                        const res = await httpClient.get('/client' + getEndpoint, {
+                            headers: { Authorization: `Bearer ${auth?.token.jwt}` },
+                        });
+                        res.data && setIsLoading(false);
+                        !isLoading && setData(res.data);
+                    }
+                    if (auth.token.user.roles[0] == 'Provider') {
+                        const res = await httpClient.get('/provider' + getEndpoint, {
+                            headers: { Authorization: `Bearer ${auth?.token.jwt}` },
+                        });
+                        res.data && setIsLoading(false);
+                        !isLoading && setData(res.data);
+                    }
+                });
+            } else {
+                const res = await httpClient.get(getEndpoint);
+                res.data && setIsLoading(false);
+                !isLoading && setData(res.data);
             }
-
-            if (res.status === 200) {
-                setIsLoading(false);
-                setData(res.data);
-            }
-
-            return data;
+            return Promise.resolve(true);
         } catch (error) {
-            setIsLoading(false);
+            setIsLoading(false); // Restablece isLoading en caso de error
             setError(error);
-            throw new Error(error);
+            throw error; // Propaga el error
         }
     };
 
-    const mutationApi = async (endpoint: string, method: string, values: any) => {
+    const mutationApi = async (method: string, values: any) => {
         if (!endpoint) {
             throw new Error('Endpoint is required');
         }
 
         try {
-            console.log(data);
             const res =
                 method === 'POST'
-                    ? await httpClient.post(`${endpoint}`, JSON.stringify(values), { headers: options })
-                    : await httpClient.put(`${endpoint}`, JSON.stringify(values), { headers: options });
+                    ? await httpClient.post(`${endpoint}`, JSON.stringify(values), {
+                          headers: { Authorization: `Bearer ${session?.token.jwt}` },
+                      })
+                    : await httpClient.put(`${endpoint}`, JSON.stringify(values), {
+                          headers: { Authorization: `Bearer ${session?.token.jwt}` },
+                      });
 
-            if (res.status !== 200) {
-                setError(res.statusText);
-            }
-
-            if (res.status === 200) {
-                setIsLoading(false);
-                mutate(endpoint, res.data, false);
-                return res.data;
-            }
-        } catch (error) {
             setIsLoading(false);
+            mutate(endpoint, res.data, false);
+            setData(res);
+        } catch (error) {
+            setIsLoading(false); // Restablece isLoading en caso de error
             setError(error);
+            throw error; // Propaga el error
         }
     };
 

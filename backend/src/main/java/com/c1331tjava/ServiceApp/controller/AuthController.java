@@ -10,6 +10,7 @@ import com.c1331tjava.ServiceApp.model.UserEntity;
 import com.c1331tjava.ServiceApp.security.filter.JwtUtil;
 import com.c1331tjava.ServiceApp.service.I_UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -56,6 +57,9 @@ public class AuthController {
      * @param loginUserDto The data transfer object containing user login credentials.
      * @return ResponseEntity with a JWT token in case of successful authentication, or an error message if authentication fails.
      */
+    @Operation(summary = "Used to user login",
+            description = "<p>No authentication required</p>" +
+                    "<p>If credentials are ok, returns a valid token</p>")
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginUserDto loginUserDto) {
         try {

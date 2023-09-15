@@ -1,13 +1,13 @@
-package com.c1331tjava.ServiceApp.controller;
+package com.c1331tjava.ServiceApp.controller.client;
 
 import com.c1331tjava.ServiceApp.config.SecurityConfig;
 import com.c1331tjava.ServiceApp.dto.client.RequestListPagedDTO;
-import com.c1331tjava.ServiceApp.dto.RequestSaveDTO;
-import com.c1331tjava.ServiceApp.exception.CustomedHandler;
+import com.c1331tjava.ServiceApp.dto.client.RequestSaveDTO;
 import com.c1331tjava.ServiceApp.model.ImagesR;
 import com.c1331tjava.ServiceApp.model.Request;
 import com.c1331tjava.ServiceApp.model.UserEntity;
 import com.c1331tjava.ServiceApp.model.enums.ZonesNames;
+import com.c1331tjava.ServiceApp.service.OperationsService;
 import com.c1331tjava.ServiceApp.service.RequestService;
 import com.c1331tjava.ServiceApp.service.UserEntityService;
 import com.c1331tjava.ServiceApp.service.ZoneService;
@@ -39,6 +39,7 @@ public class RequestClientController {
     SecurityConfig securityConfig;
     UserEntityService userEntityService;
     ZoneService zoneService;
+    OperationsService operationsService;
     @Autowired
     ModelMapper modelMapper;
 
@@ -55,23 +56,13 @@ public class RequestClientController {
     @GetMapping("/list/paged")
     public RequestListPagedDTO findByClientAndActive(@ParameterObject Pageable pageable){
 
-        String currentUser = securityConfig.getUserNameFromToken();
+        UserEntity currentClient = operationsService.getAuthenticatedUser();
 
-        UserEntity currentUserEntity;
+        Page<Request> RequestPaged = requestService.findByClientAndActiveTrue(currentClient, pageable);
 
-        try {
-            currentUserEntity = this.userEntityService.findByEmailAndActiveTrue(currentUser).get();
-        } catch (Exception e) {
-            throw new CustomedHandler("Error retrieving user details from database");
-        }
-        Page<Request> RequestPaged = null;
-        try {
-            RequestPaged = this.requestService.findByClientAndActiveTrue(currentUserEntity, pageable);
-        } catch (Exception e) {
-            throw new CustomedHandler("Error accessing request database");
-        }
         return new RequestListPagedDTO(RequestPaged);
     }
+
     /**
      * Endpoint to add a new request. Extracts user from token.
      *
@@ -86,36 +77,22 @@ public class RequestClientController {
     @PostMapping("/new")
     public ResponseEntity<?> save(@Valid @RequestBody RequestSaveDTO requestSaveDTO){
 
-        UserEntity currentClient = null;
-        try {
-            currentClient = this.userEntityService.
-                    findByEmail(securityConfig.getUserNameFromToken()).get();
-        } catch (Exception e) {
-            throw new RuntimeException("Error accessing user table");
-        }
+        UserEntity currentClient = operationsService.getAuthenticatedUser();
 
         Request request = modelMapper.map(requestSaveDTO, Request.class);
 
         // Sets the not auto mapped parameters
         request.setClient(currentClient);
         request.setDate(LocalDateTime.now());
-        try {
-            request.setZone(zoneService.findByName(ZonesNames.valueOf(requestSaveDTO.getZoneDTO())));
-        } catch (IllegalArgumentException e) {
-            throw new CustomedHandler("Error accessing zones table");
-        }
+        request.setZone(zoneService.findByName(ZonesNames.valueOf(requestSaveDTO.getZoneDTO())));
         request.setActive(true);
         request.setEnded(false);
         if (!requestSaveDTO.getImagesDTO().isEmpty()) {
             Set<ImagesR> images = new HashSet<>();
-            requestSaveDTO.getImagesDTO().stream().forEach(a -> images.add(new ImagesR(a)));
+            requestSaveDTO.getImagesDTO().forEach(a -> images.add(new ImagesR(a)));
             request.setImages(images);
         }
-        try {
-            this.requestService.save(request);
-        } catch (Exception e) {
-            throw new CustomedHandler("Error persisting request");
-        }
+        requestService.save(request);
         return new ResponseEntity<>("Request created suscesfully", HttpStatus.CREATED);
     }
 

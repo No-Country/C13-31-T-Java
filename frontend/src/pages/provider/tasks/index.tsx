@@ -4,41 +4,27 @@ import Layout from '@components/layout';
 import TaskCard from '@components/TaskCard';
 import { Input } from '@nextui-org/react';
 import { SearchIcon } from '@components/SearchIcon';
+import { useEffect, useCallback } from 'react';
+import useApi from '@hooks/useApi';
+
 const Tasks: NextPage = () => {
-    const tasks = [
-        { 1: 'Task 1' },
-        { 2: 'Task 2' },
-        { 3: 'Task 3' },
-        { 4: 'Task 4' },
-        { 5: 'Task 5' },
-        { 6: 'Task 6' },
-        { 7: 'Task 7' },
-        { 8: 'Task 8' },
-        { 9: 'Task 9' },
-        { 10: 'Task 10' },
-        { 11: 'Task 1' },
-        { 12: 'Task 2' },
-        { 13: 'Task 3' },
-        { 14: 'Task 4' },
-        { 15: 'Task 5' },
-        { 16: 'Task 6' },
-        { 17: 'Task 7' },
-        { 18: 'Task 8' },
-        { 19: 'Task 9' },
-        { 20: 'Task 10' },
-        { 21: 'Task 1' },
-        { 22: 'Task 2' },
-        { 23: 'Task 3' },
-        { 24: 'Task 4' },
-        { 25: 'Task 5' },
-        { 26: 'Task 6' },
-        { 27: 'Task 7' },
-        { 28: 'Task 8' },
-        { 29: 'Task 9' },
-        { 30: 'Task 10' },
-        { 31: 'Task 10' },
-        { 32: 'Task 10' },
-    ];
+    const { getData, data: requests } = useApi('/request/list?criteria=&page=0&size=4');
+
+    const getRequests = useCallback(async () => {
+        try {
+            await getData();
+        } catch (error) {
+            console.error(error);
+        }
+    }, []);
+
+    useEffect(() => {
+        console.log('Requests ' + requests?.totalPages);
+    }, [requests]);
+
+    useEffect(() => {
+        getRequests();
+    }, [getRequests]);
 
     return (
         <Layout title="Solicitudes">
@@ -77,8 +63,15 @@ const Tasks: NextPage = () => {
                     />
                 </div>
                 <article className="flex flex-col xl:grid xl:grid-rows-4 xl:grid-cols-4 xl:gap-4">
-                    {tasks.map((task, index) => {
-                        return <TaskCard key={index} />;
+                    {requests?.requests.map((task, index) => {
+                        return (
+                            <TaskCard
+                                fecha={task.date}
+                                descripcion={task.description}
+                                image={task.images[0].imageLink}
+                                key={index}
+                            />
+                        );
                     })}
                 </article>
             </section>

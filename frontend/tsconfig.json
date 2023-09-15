@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "target": "ES2017",
+        "target": "ES5",
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
         "noFallthroughCasesInSwitch": true,
@@ -25,6 +25,14 @@
             "@*": ["./src/*"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".eslintrc.js", "prettier.config.cjs"],
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        ".eslintrc.js",
+        "prettier.config.cjs",
+        "next.config.mjs",
+        "postcss.config.js"
+    ],
     "exclude": ["node_modules"]
 }

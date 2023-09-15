@@ -1,5 +1,6 @@
 package com.c1331tjava.ServiceApp.service;
 
+import com.c1331tjava.ServiceApp.exception.CustomedHandler;
 import com.c1331tjava.ServiceApp.model.Area;
 import com.c1331tjava.ServiceApp.model.enums.AreasNames;
 import com.c1331tjava.ServiceApp.repository.I_AreaRepository;
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class AreaServiceImpl implements I_AreaService {
@@ -15,14 +15,26 @@ public class AreaServiceImpl implements I_AreaService {
     I_AreaRepository areaRepository;
     @Override
     public Area findByName(AreasNames name) {
-        return areaRepository.findByName(name);
+        try {
+            return areaRepository.findByName(name);
+        } catch (Exception e) {
+            throw new CustomedHandler("Error accessing area database");
+        }
     }
 
     public Area findById(Long id){
-        return areaRepository.findById(id).get();
+        try {
+            return areaRepository.findById(id).get();
+        } catch (Exception e) {
+            throw new CustomedHandler("Error accessing area database");
+        }
     }
 
     public List<Area> findAll(){
-        return areaRepository.findAll();
+        try {
+            return areaRepository.findAll();
+        } catch (Exception e) {
+            throw new CustomedHandler("Error accessing area database");
+        }
     }
 }

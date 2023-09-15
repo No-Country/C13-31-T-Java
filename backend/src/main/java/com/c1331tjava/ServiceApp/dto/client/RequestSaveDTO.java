@@ -1,11 +1,8 @@
-package com.c1331tjava.ServiceApp.dto;
+package com.c1331tjava.ServiceApp.dto.client;
 
-import com.c1331tjava.ServiceApp.model.ImagesR;
-import com.c1331tjava.ServiceApp.model.Zone;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
 import java.util.Set;
 
 @Data

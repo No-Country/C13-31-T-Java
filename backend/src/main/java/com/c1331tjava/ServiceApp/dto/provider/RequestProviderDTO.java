@@ -1,6 +1,5 @@
 package com.c1331tjava.ServiceApp.dto.provider;
 
-import com.c1331tjava.ServiceApp.model.Bid;
 import com.c1331tjava.ServiceApp.model.ImagesR;
 import com.c1331tjava.ServiceApp.model.Zone;
 import lombok.Data;

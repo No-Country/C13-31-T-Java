@@ -1,6 +1,5 @@
 package com.c1331tjava.ServiceApp.dto;
 
-import com.c1331tjava.ServiceApp.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

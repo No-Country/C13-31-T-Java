@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import { signIn, useSession } from 'next-auth/react';
 import { Input, Checkbox, Button } from '@nextui-org/react';
 import { Poppins } from 'next/font/google';
-
+import toast, { Toaster } from 'react-hot-toast';
 import Alert from '@components/Alert';
 import Logo from '../../../assets/images/findatrader.png';
 
@@ -21,8 +21,14 @@ const SignIn: NextPage = () => {
     const { data: session } = useSession();
 
     useEffect(() => {
-        if (session) router.push('/provider/tasks');
-    }, [session, router]);
+        setTimeout(() => {
+            if (session) {
+                // APIrequest.defaults.headers.common['Authorization'] = 'Bearer ' + session.token.jwt;
+                if (session.token.user.roles[0] == 'Client') router.push('/client/tasks');
+                if (session.token.user.roles[0] == 'Provider') router.push('/provider/tasks');
+            }
+        }, 2000);
+    }, [session]);
 
     const formik = useFormik({
         initialValues: {
@@ -34,6 +40,7 @@ const SignIn: NextPage = () => {
             password: Yup.string().required('Requerido'),
         }),
         onSubmit: async (values) => {
+            const loadingToast = toast.loading('Iniciando sesión...');
             const { email, password } = values;
             try {
                 const result = await signIn('credentials', {
@@ -41,9 +48,14 @@ const SignIn: NextPage = () => {
                     password,
                     redirect: false,
                 });
-                console.log(result);
+
+                if (result.ok) {
+                    toast.dismiss(loadingToast);
+                    toast.success('Sesión iniciada correctamente');
+                }
             } catch (error) {
-                console.log(error);
+                toast.dismiss(loadingToast);
+                toast.error('Error ' + error);
             }
         },
     });
@@ -54,6 +66,7 @@ const SignIn: NextPage = () => {
                 <title>FaT - Inicia sesion</title>
             </Head>
             <section className="w-full h-screen">
+                <Toaster />
                 <article className="flex justify-center items-center w-full h-full">
                     <div>
                         <div className="flex flex-row justify-between items-center">
